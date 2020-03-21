@@ -1,0 +1,5 @@
+/devops
+/lastupdate.tmp
+/*.tmp
+.idea/
+.idea/*
