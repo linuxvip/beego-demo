@@ -8,7 +8,7 @@ import (
 
 func Sha1(input string) string {
 	if input == "" {
-		return "adc83b19e793491b1c6ea0fd8b46cd9f32e592fc"
+		return "adc83b19e793491b1c6ea0fd"
 	}
 	return fmt.Sprintf("%x", sha1.Sum([]byte(input)))
 }

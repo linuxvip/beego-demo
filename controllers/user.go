@@ -87,6 +87,8 @@ func (this *UserController) Registered() {
 		this.ServeJSON()
 		return
 	}
+	// 密码加密
+	password = utils.Secret2Password(email, password)
 
 	user := models.User{
 		Phone:    phone,
@@ -126,6 +128,8 @@ func (this *UserController) Login() {
 		}
 	}
 
+	// 密码加密
+	password = utils.Secret2Password(email, password)
 	// 使用邮箱和密码去验证
 	user, ok := models.CheckUserAuth(email, password)
 	if !ok {
