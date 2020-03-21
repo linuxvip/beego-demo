@@ -4,15 +4,15 @@
 
 ## 使用
 
-* git clone 
+* git clone https://github.com/linuxvip/beego-demo.git
 * bee run
 
 ## 测试路由
-### 注册
+#### 用户注册
 * POST /v1/user/reg
 
-### 登录
+#### 用户登录
 * POST /v1/user/login
 
-### 认证测试
+#### jwt认证测试
 * GET /v1/user/auth
