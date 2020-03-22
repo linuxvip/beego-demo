@@ -26,11 +26,12 @@ type LoginToken struct {
 
 // @Title 注册新用户
 // @Description 用户注册
-// @Param	phone		formData 	string	true 		"用户手机号"
-// @Param	nickname	formData 	string	true		"用户昵称"
-// @Param	password	formData 	string	true		"密码(需要前端 Md5 后传输)"
-// @Success 200 {object}
-// @Failure 403 参数错误：缺失或格式错误
+// @Param username formData string true "用户名称"
+// @Param password formData string true "密码"
+// @Param email formData string	true "邮箱"
+// @Param phone formData string	true "用户手机号"
+// @Success 200 {object} models.User
+// @Failure 403 参数错误:缺失或格式错误
 // @Faulure 422 已被注册
 // @router /reg [post]
 func (this *UserController) Registered() {
@@ -100,12 +101,11 @@ func (this *UserController) Registered() {
 	}
 	this.Data["json"] = Response{0, "success.", models.CreateUser(user)}
 	this.ServeJSON()
-
 }
 
 // @Title 登录
 // @Description 账号登录
-// @Success 200 {object}
+// @Success 200 {object} models.User
 // @Failure 404 no enough input
 // @Failure 401 No Admin
 // @router /login [post]
@@ -156,7 +156,7 @@ func (this *UserController) Login() {
 
 // @Title 认证测试
 // @Description 测试错误码
-// @Success 200 {object}
+// @Success 200 {object} models.User
 // @Failure 401 unauthorized
 // @router /auth [get]
 func (this *UserController) Auth() {
@@ -172,4 +172,30 @@ func (this *UserController) Auth() {
 
 	this.Data["json"] = Response{0, "success.", "user is login"}
 	this.ServeJSON()
+}
+
+
+// @Title 头像上传
+// @Description 头像上传
+// @Param	avatar  query  []byte	false   获取图片二进制流出
+// @Success 200
+// @router /upload_avatar [post]
+func (this *UserController) UploadAvatar() {
+	this.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Origin", this.Ctx.Request.Header.Get("Origin"))
+
+	tmpfile, fheader, err  := this.Ctx.Request.FormFile("avatar")
+	// u.GetFile("avatar") 效果相同  “avatar”是二进制流的键名.获取上传的文件
+	if err != nil{
+		panic(err)
+	}
+	//关闭上传的文件，不然的话会出现临时文件不能清除的情况
+	defer tmpfile.Close()
+	path := "20181212.jpg"  //设置保存路径
+	fmt.Println(fheader.Header)
+	fmt.Println(fheader.Size)
+	fmt.Println(fheader.Filename)
+	//beego.Info("Header:", fheader.Header)//map[Content-Disposition:[form-data; name="123"; filename="upimage.jpg"] Content-Type:[image/jpeg]]
+	//beego.Info("Size:", fheader.Size)    //114353
+	//beego.Info("Filename:", fheader.Filename)  //upimage.jpg
+	this.SaveToFile("123", path)
 }

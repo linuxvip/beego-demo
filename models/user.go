@@ -23,6 +23,7 @@ func (u *User) TableName() string {
 }
 
 func init() {
+	// 映射model数据（User）
 	orm.RegisterModel(new(User))
 }
 

@@ -1,3 +1,8 @@
+// @APIVersion 1.0.0
+// @Title Devops API
+// @Description Devops System APIs.
+// @Contact liuchengming@laiye.com
+
 package routers
 
 import (

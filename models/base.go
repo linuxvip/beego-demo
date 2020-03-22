@@ -22,12 +22,15 @@ func Init() {
 		appConf.String("database::db_name"),
 		appConf.String("database::db_charset"))
 
-	// 注册default 别名alias
+	// 设置数据库基本信息，注册default 别名alias
 	orm.RegisterDataBase("default", "mysql", conn)
 
-	//自动建表
+	//    自动建表
+	// 别名
 	name := "default"
+	// 强制更新
 	force := false
+	// 是否可见创建过程
 	verbose := true
 	err = orm.RunSyncdb(name, force, verbose)
 	if err != nil {

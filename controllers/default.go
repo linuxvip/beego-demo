@@ -7,7 +7,7 @@ type DefaultController struct {
 
 // @Title 欢迎信息
 // @Description API 欢迎信息
-// @Success 200 {object}
+// @Success 200 {object} ""
 // @router / [any]
 func (o *DefaultController) GetAll() {
 	o.Data["json"] = Response{0, "success.", "Devops API 1.0 by ChummyLiu"}

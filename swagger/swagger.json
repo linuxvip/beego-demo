@@ -1,0 +1,172 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Devops API",
+        "description": "Devops System APIs.",
+        "version": "1.0.0",
+        "contact": {
+            "email": "liuchengming@laiye.com"
+        }
+    },
+    "basePath": "/v1",
+    "paths": {
+        "/user/auth": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "description": "测试错误码",
+                "operationId": "UserController.认证测试",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized"
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "description": "账号登录",
+                "operationId": "UserController.登录",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "401": {
+                        "description": "No Admin"
+                    },
+                    "404": {
+                        "description": "no enough input"
+                    }
+                }
+            }
+        },
+        "/user/reg": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "description": "用户注册",
+                "operationId": "UserController.注册新用户",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "username",
+                        "description": "用户名称",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "formData",
+                        "name": "password",
+                        "description": "密码",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "formData",
+                        "name": "email",
+                        "description": "邮箱",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "formData",
+                        "name": "phone",
+                        "description": "用户手机号",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "403": {
+                        "description": "参数错误:缺失或格式错误"
+                    }
+                }
+            }
+        },
+        "/user/upload_avatar": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "description": "头像上传",
+                "operationId": "UserController.头像上传",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "avatar",
+                        "description": "获取图片二进制流出",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "byte"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "\"\"": {
+            "title": "\"\"",
+            "type": "object"
+        },
+        "models.User": {
+            "title": "User",
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "is_active": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
