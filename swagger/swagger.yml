@@ -7,6 +7,90 @@ info:
     email: liuchengming@laiye.com
 basePath: /v1
 paths:
+  /depa/:
+    get:
+      tags:
+      - depa
+      description: 查询部门列表
+      operationId: DepartmentController.查询部门列表
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Department'
+        "500":
+          description: 查询错误
+  /depa/{id}:
+    post:
+      tags:
+      - depa
+      description: 修改部门
+      operationId: DepartmentController.修改部门
+      parameters:
+      - in: formData
+        name: id
+        description: 部门id
+        required: true
+        type: integer
+        format: int64
+      - in: formData
+        name: name
+        description: 部门名称
+        required: true
+        type: string
+      - in: formData
+        name: desc
+        description: 部门描述
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Department'
+        "500":
+          description: 参数错误:缺失或格式错误
+    delete:
+      tags:
+      - depa
+      description: 删除部门
+      operationId: DepartmentController.删除部门
+      parameters:
+      - in: formData
+        name: id
+        description: 部门id
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Department'
+        "500":
+          description: 参数错误:缺失或格式错误
+  /depa/add:
+    post:
+      tags:
+      - depa
+      description: 新建部门
+      operationId: DepartmentController.新建部门
+      parameters:
+      - in: formData
+        name: name
+        description: 部门名称
+        required: true
+        type: string
+      - in: formData
+        name: desc
+        description: 部门描述
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Department'
+        "403":
+          description: 参数错误:缺失或格式错误
   /user/auth:
     get:
       tags:
@@ -90,6 +174,23 @@ definitions:
   '""':
     title: '""'
     type: object
+  models.Department:
+    title: Department
+    type: object
+    properties:
+      create_time:
+        type: string
+        format: datetime
+      desc:
+        type: string
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      update_time:
+        type: string
+        format: datetime
   models.User:
     title: User
     type: object
