@@ -105,6 +105,8 @@ func (this *UserController) Registered() {
 
 // @Title 登录
 // @Description 账号登录
+// @Param email formData string	true "邮箱"
+// @Param password formData string true "密码"
 // @Success 200 {object} models.User
 // @Failure 404 no enough input
 // @Failure 401 No Admin

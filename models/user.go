@@ -6,15 +6,16 @@ import (
 )
 
 type User struct {
-	Id       int64     `json:"id" orm:"column(id);pk;auto;unique"`
-	Phone    string    `json:"phone" orm:"column(phone);unique;size(11)"`
-	Username string    `json:"username" orm:"column(username);unique;size(40);"`
-	Password string    `json:"-" orm:"column(password);size(40)"`
-	Email string    `json:"email" orm:"column(email);size(255)"`
-	Avatar string `json:"avatar" orm:"column(avatar);size(255)"`
-	IsActive string `json:"is_active" orm:"column(is_active);size(5)"`
-	Createtime  time.Time `json:"create_time" orm:"column(create_time);auto_now_add;type(datetime)"`
-	Updatetime  time.Time `json:"update_time" orm:"column(update_time);auto_now;type(datetime)"`
+	Id			int64		`json:"id" orm:"column(id);pk;auto;unique;description(id)"`
+	Phone		string		`json:"phone" orm:"column(phone);unique;null;size(11);description(手机号码)"`
+	Username	string		`json:"username" orm:"column(username);unique;size(40);description(用户名称)"`
+	Password	string		`json:"-" orm:"column(password);size(40);description(用户密码)"`
+	Email		string		`json:"email" orm:"column(email);size(255);description(用户邮箱)"`
+	Avatar		string		`json:"avatar" orm:"column(avatar);size(255);null;description(用户头像)"`
+	IsActive	string		`json:"is_active" orm:"column(is_active);size(5);default(1);description(是否激活)"`
+	Createtime	time.Time	`json:"create_time" orm:"column(create_time);auto_now_add;type(datetime);description(创建时间)"`
+	Updatetime	time.Time	`json:"update_time" orm:"column(update_time);auto_now;type(datetime);description(更新时间)"`
+	Department	*Department	`json:"department" orm:"column(department_id);rel(fk);null;description(所属部门)"`
 }
 
 // 获取表名，调用的base中的方法，带表名前缀

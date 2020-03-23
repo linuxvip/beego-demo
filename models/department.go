@@ -7,12 +7,13 @@ import (
 
 // 部门表设计
 type Department struct {
-	Id		int64	`json:"id" orm:"column(id);pk;auto;unique"`
-	Name	string	`json:"name" orm:"column(name);unique;size(40);"`
-	Desc	string	`json:"desc" orm:"column(desc);size(40)"`
-	//Parent	int64	`json:"parent" orm:"column(desc);size(40)"`
-	Createtime  time.Time `json:"create_time" orm:"column(create_time);auto_now_add;type(datetime)"`
-	Updatetime  time.Time `json:"update_time" orm:"column(update_time);auto_now;type(datetime)"`
+	Id			int64			`json:"id" orm:"column(id);pk;auto;unique;description(id)"`
+	Name		string			`json:"name" orm:"column(name);unique;size(40);description(部门名称)"`
+	Desc		string			`json:"desc" orm:"column(desc);null;size(40);description(部门描述)"`
+	Createtime	time.Time		`json:"create_time" orm:"column(create_time);auto_now_add;type(datetime);description(创建时间)"`
+	Updatetime	time.Time		`json:"update_time" orm:"column(update_time);auto_now;type(datetime);description(更新时间)"`
+	Parent		*Department		`json:"parent_id" orm:"rel(fk);default(nil);description(父级部门)"`
+	User		[]*User			`orm:"reverse(many)"` //反向一对多关联
 }
 
 // 获取表名，调用的base中的方法，带表名前缀

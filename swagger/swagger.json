@@ -163,6 +163,22 @@
                 ],
                 "description": "账号登录",
                 "operationId": "UserController.登录",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "email",
+                        "description": "邮箱",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "formData",
+                        "name": "password",
+                        "description": "密码",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -265,6 +281,12 @@
             "title": "Department",
             "type": "object",
             "properties": {
+                "User": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.User"
+                    }
+                },
                 "create_time": {
                     "type": "string",
                     "format": "datetime"
@@ -278,6 +300,9 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "parent_id": {
+                    "$ref": "#/definitions/models.Department"
                 },
                 "update_time": {
                     "type": "string",
@@ -295,6 +320,9 @@
                 "create_time": {
                     "type": "string",
                     "format": "datetime"
+                },
+                "department": {
+                    "$ref": "#/definitions/models.Department"
                 },
                 "email": {
                     "type": "string"
