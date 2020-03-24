@@ -23,8 +23,23 @@ func init() {
 		beego.NSNamespace("/depa",
 			beego.NSInclude(
 				&controllers.DepartmentController{},
-				),
 			),
+		),
+		beego.NSNamespace("/configgit",
+			beego.NSInclude(
+				&controllers.ConfigGitController{},
+			),
+		),
+		beego.NSNamespace("/configprocess",
+			beego.NSInclude(
+				&controllers.ConfigProcessController{},
+			),
+		),
+		beego.NSNamespace("/config",
+			beego.NSInclude(
+				&controllers.ConfigController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

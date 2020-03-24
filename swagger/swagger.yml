@@ -7,6 +7,87 @@ info:
     email: liuchengming@laiye.com
 basePath: /v1
 paths:
+  /config/add:
+    post:
+      tags:
+      - config
+      description: 新建配置
+      operationId: ConfigController.新建配置
+      parameters:
+      - in: formData
+        name: config_git_id
+        description: 配置仓库ID
+        required: true
+        type: integer
+        format: int64
+      - in: formData
+        name: config_process_id
+        description: 配置进程ID
+        required: true
+        type: integer
+        format: int64
+      - in: formData
+        name: content
+        description: 配置json内容
+        required: true
+        schema:
+          $ref: '#/definitions/json'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Config'
+        "403":
+          description: 参数错误:缺失或格式错误
+  /configgit/add:
+    post:
+      tags:
+      - configgit
+      description: 新建配置仓库
+      operationId: ConfigGitController.新建配置仓库
+      parameters:
+      - in: formData
+        name: name
+        description: 配置仓库名称
+        required: true
+        type: string
+      - in: formData
+        name: service_module
+        description: 服务模块
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ConfigGit'
+        "403":
+          description: 参数错误:缺失或格式错误
+  /configprocess/add:
+    post:
+      tags:
+      - configprocess
+      description: 新建配置进程
+      operationId: ConfigProcessController.新建配置进程
+      parameters:
+      - in: formData
+        name: name
+        description: 配置进程名称
+        required: true
+        type: string
+      - in: formData
+        name: config_git_id
+        description: 配置仓库ID
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ConfigProcess'
+        "403":
+          description: 参数错误:缺失或格式错误
   /depa/:
     get:
       tags:
@@ -185,6 +266,74 @@ definitions:
   '""':
     title: '""'
     type: object
+  json:
+    title: json
+    type: object
+  models.Config:
+    title: Config
+    type: object
+    properties:
+      config_git_id:
+        $ref: '#/definitions/models.ConfigGit'
+      config_process_id:
+        $ref: '#/definitions/models.ConfigProcess'
+      content:
+        type: string
+      create_time:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      update_time:
+        type: string
+        format: datetime
+  models.ConfigGit:
+    title: ConfigGit
+    type: object
+    properties:
+      Config:
+        type: array
+        items:
+          $ref: '#/definitions/models.Config'
+      ConfigProcess:
+        type: array
+        items:
+          $ref: '#/definitions/models.ConfigProcess'
+      create_time:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      service_module:
+        type: string
+      update_time:
+        type: string
+        format: datetime
+  models.ConfigProcess:
+    title: ConfigProcess
+    type: object
+    properties:
+      Config:
+        type: array
+        items:
+          $ref: '#/definitions/models.Config'
+      config_git_id:
+        $ref: '#/definitions/models.ConfigGit'
+      create_time:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      update_time:
+        type: string
+        format: datetime
   models.Department:
     title: Department
     type: object

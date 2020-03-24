@@ -3,3 +3,4 @@
 /*.tmp
 .idea/
 .idea/*
+/scripts/yaml_dir/*
