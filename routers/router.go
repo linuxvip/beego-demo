@@ -25,19 +25,9 @@ func init() {
 				&controllers.DepartmentController{},
 			),
 		),
-		beego.NSNamespace("/configgit",
-			beego.NSInclude(
-				&controllers.ConfigGitController{},
-			),
-		),
-		beego.NSNamespace("/configprocess",
-			beego.NSInclude(
-				&controllers.ConfigProcessController{},
-			),
-		),
 		beego.NSNamespace("/config",
 			beego.NSInclude(
-				&controllers.ConfigController{},
+				&controllers.ConfigsController{},
 			),
 		),
 	)

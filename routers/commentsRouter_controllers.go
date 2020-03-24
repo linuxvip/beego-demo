@@ -34,6 +34,15 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["devops/controllers:ConfigsController"] = append(beego.GlobalControllerRouter["devops/controllers:ConfigsController"],
+        beego.ControllerComments{
+            Method: "AddConfigs",
+            Router: `/add`,
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["devops/controllers:DefaultController"] = append(beego.GlobalControllerRouter["devops/controllers:DefaultController"],
         beego.ControllerComments{
             Method: "GetAll",
