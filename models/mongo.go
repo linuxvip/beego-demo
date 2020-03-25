@@ -1,18 +1,24 @@
 package models
 
 import (
+	"fmt"
 	"github.com/astaxie/beego/config"
 	"github.com/globalsign/mgo"
+	"github.com/globalsign/mgo/bson"
 	"log"
 )
 
-//type Configs struct {
-//	Id			int64		`json:"id" orm:"column(id);pk;auto;unique;description(id)"`
-//	Name		string		`json:"name" orm:"column(name);unique;null;size(11);description(名称)"`
-//	Createtime	time.Time	`json:"create_time" orm:"column(create_time);auto_now_add;type(datetime);description(创建时间)"`
-//	Updatetime	time.Time	`json:"update_time" orm:"column(update_time);auto_now;type(datetime);description(更新时间)"`
-//}
-
+// 内联嵌套子集
+type ProjectResp struct {
+	Id            bson.ObjectId `json:"id" bson:"_id"`
+	ServiceModule string        `json:"service_module" bson:"service_module"`
+	ProjectName   string        `json:"project_name" bson:"project_name"`
+	ProjectInfo   ProcessResp   `json:"project_info" bson:"project_info"`
+}
+type ProcessResp struct {
+	ProcessName 	string 		`json:"process_name" bson:"process_name"`
+	ProcessInfo		interface{} `json:"process_info" bson:"process_info"`
+}
 
 var globalS *mgo.Session
 
@@ -27,7 +33,7 @@ func init() {
 	user := appConf.String("mongodb::user")
 	pass := appConf.String("mongodb::pass")
 
-		dialInfo := &mgo.DialInfo{
+	dialInfo := &mgo.DialInfo{
 		Addrs:    []string{host},
 		Source:   source,
 		Username: user,
@@ -36,45 +42,82 @@ func init() {
 	s, err := mgo.DialWithInfo(dialInfo)
 	if err != nil {
 		log.Fatalln("MongoDB create session error ", err)
-	}else{
+	} else {
 		log.Println("MongoDB create session succeed")
 	}
 	globalS = s
 }
 
-func connect(db, collection string) (*mgo.Session, *mgo.Collection) {
+func GetDBandCollection() (db, collection string) {
+	db = "configs"
+	collection = "configs_model"
+	return db, collection
+}
+
+func connect() (*mgo.Session, *mgo.Collection) {
+	db, collection := GetDBandCollection()
 	s := globalS.Copy()
 	c := s.DB(db).C(collection)
 	return s, c
 }
 
+// 获取所有的服务模块
+func GetServiceModule(result interface{}) error {
+	ms, c := connect()
+	defer ms.Close()
+	err := c.Find(bson.M{}).Distinct("service_module", result)
+	return err
+}
+
+// 获取所有的project
+func FindProjects(query interface{}) (*[]ProjectResp, error) {
+	ms, c := connect()
+	defer ms.Close()
+	tmp := []ProjectResp{}
+	//conditions := bson.M{key: bson.RegEx{find, "i"}}//构造模糊查询字段
+	//err := c.Find(bson.M{"service_module": "backend"}).All(&tmp)
+	err := c.Find(query).All(&tmp)
+	//fmt.Println(tmp)
+	return &tmp, err
+}
+
+// 获取进程
+func FindProcess() (*[]ProcessResp, error) {
+	ms, c := connect()
+	defer ms.Close()
+	tmp := []ProcessResp{}
+	err := c.Find(bson.M{}).All(&tmp)
+	fmt.Println(tmp)
+	return &tmp, err
+}
+
 // 配置插入
-func Insert(db, collection string, docs ...interface{}) error {
-	ms, c := connect(db, collection)
+func Insert(docs ...interface{}) error {
+	ms, c := connect()
 	defer ms.Close()
 	return c.Insert(docs...)
 }
 
-func FindOne(db, collection string, query, selector, result interface{}) error {
-	ms, c := connect(db, collection)
+func FindOne(query, selector, result interface{}) error {
+	ms, c := connect()
 	defer ms.Close()
 	return c.Find(query).Select(selector).One(result)
 }
 
-func FindAll(db, collection string, query, selector, result interface{}) error {
-	ms, c := connect(db, collection)
-	defer ms.Close()
-	return c.Find(query).Select(selector).All(result)
-}
+//func Update(db, collection string, query, update interface{}) error {
+//	ms, c := connect(db, collection)
+//	defer ms.Close()
+//	return c.Update(query, update)
+//}
+//
+//func Remove(db, collection string, query interface{}) error {
+//	ms, c := connect(db, collection)
+//	defer ms.Close()
+//	return c.Remove(query)
+//}
 
-func Update(db, collection string, query, update interface{}) error {
-	ms, c := connect(db, collection)
-	defer ms.Close()
-	return c.Update(query, update)
-}
-
-func Remove(db, collection string, query interface{}) error {
-	ms, c := connect(db, collection)
-	defer ms.Close()
-	return c.Remove(query)
-}
+//func (m *Movies) FindMovieById(id string) (Movies, error) {
+//	var result Movies
+//	err := FindOne(db, collection, bson.M{"_id": bson.ObjectIdHex(id)}, nil, &result)
+//	return result, err
+//}

@@ -43,6 +43,33 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["devops/controllers:ConfigsController"] = append(beego.GlobalControllerRouter["devops/controllers:ConfigsController"],
+        beego.ControllerComments{
+            Method: "GetConfigs",
+            Router: `/process`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["devops/controllers:ConfigsController"] = append(beego.GlobalControllerRouter["devops/controllers:ConfigsController"],
+        beego.ControllerComments{
+            Method: "GetProjects",
+            Router: `/project`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["devops/controllers:ConfigsController"] = append(beego.GlobalControllerRouter["devops/controllers:ConfigsController"],
+        beego.ControllerComments{
+            Method: "ListServiceModule",
+            Router: `/sm`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["devops/controllers:DefaultController"] = append(beego.GlobalControllerRouter["devops/controllers:DefaultController"],
         beego.ControllerComments{
             Method: "GetAll",

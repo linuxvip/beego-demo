@@ -20,6 +20,13 @@
                 "parameters": [
                     {
                         "in": "formData",
+                        "name": "service_module",
+                        "description": "服务模块",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "formData",
                         "name": "content",
                         "description": "配置json内容",
                         "required": true,
@@ -37,6 +44,72 @@
                     },
                     "403": {
                         "description": "参数错误:缺失或格式错误"
+                    }
+                }
+            }
+        },
+        "/config/process": {
+            "get": {
+                "tags": [
+                    "config"
+                ],
+                "description": "查询进程",
+                "operationId": "ConfigsController.查询进程",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/project": {
+            "get": {
+                "tags": [
+                    "config"
+                ],
+                "description": "查询Project",
+                "operationId": "ConfigsController.查询Project",
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "service_module",
+                        "description": "服务模块",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "formData",
+                        "name": "project_name",
+                        "description": "项目名称",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/sm": {
+            "get": {
+                "tags": [
+                    "config"
+                ],
+                "description": "查询服务模块",
+                "operationId": "ConfigsController.查询服务模块",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
                     }
                 }
             }
