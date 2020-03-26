@@ -45,9 +45,9 @@ func init() {
 
     beego.GlobalControllerRouter["devops/controllers:ConfigsController"] = append(beego.GlobalControllerRouter["devops/controllers:ConfigsController"],
         beego.ControllerComments{
-            Method: "GetConfigs",
-            Router: `/process`,
-            AllowHTTPMethods: []string{"get"},
+            Method: "DeleteConfigs",
+            Router: `/delete`,
+            AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
@@ -55,7 +55,7 @@ func init() {
     beego.GlobalControllerRouter["devops/controllers:ConfigsController"] = append(beego.GlobalControllerRouter["devops/controllers:ConfigsController"],
         beego.ControllerComments{
             Method: "GetProjects",
-            Router: `/project`,
+            Router: `/list`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -66,6 +66,15 @@ func init() {
             Method: "ListServiceModule",
             Router: `/sm`,
             AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["devops/controllers:ConfigsController"] = append(beego.GlobalControllerRouter["devops/controllers:ConfigsController"],
+        beego.ControllerComments{
+            Method: "UpdateConfigs",
+            Router: `/update`,
+            AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})

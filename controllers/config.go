@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"devops/models"
-	"fmt"
 	"github.com/astaxie/beego/validation"
 	"github.com/globalsign/mgo/bson"
 )
@@ -31,8 +30,8 @@ func (this *ConfigsController) ListServiceModule() {
 	this.ServeJSON()
 }
 
-// @Title 新建配置
-// @Description 新建配置
+// @Title 新增配置
+// @Description 新增配置
 // @Param service_module formData string true "服务模块"
 // @Param content formData json true "配置json内容"
 // @Success 200 {object} Response
@@ -64,13 +63,13 @@ func (this *ConfigsController) AddConfigs() {
 }
 
 
-// @Title 查询Project
-// @Description 查询Project
+// @Title 查询配置
+// @Description 查询配置
 // @Param service_module formData string true "服务模块"
 // @Param project_name formData string false "项目名称"
 // @Success 200 {object} Response
 // @Faulure 422 不存在
-// @router /project [get]
+// @router /list [get]
 func (this *ConfigsController) GetProjects() {
 	service_module := this.GetString("service_module")
 	project_name := this.GetString("project_name")
@@ -100,7 +99,7 @@ func (this *ConfigsController) GetProjects() {
 	// 构造显示参数(未使用)
 	//selector := bson.M{}
 	result, err := models.FindProjects(bson.M{"$and": query})
-	fmt.Println(result)
+	//fmt.Println(result)
 	if err != nil{
 		panic(err)
 	}
@@ -110,17 +109,54 @@ func (this *ConfigsController) GetProjects() {
 }
 
 
-// @Title 查询进程
-// @Description 查询进程
+// @Title 修改配置
+// @Description 修改配置
+// @Param id formData string true "需要更新的ID"
+// @Param content formData string true "需要更新的内容(Json)"
 // @Success 200 {object} Response
 // @Faulure 422 不存在
-// @router /process [get]
-func (this *ConfigsController) GetConfigs() {
-	result, err := models.FindProcess()
-	if err != nil{
+// @router /update [post]
+func (this *ConfigsController) UpdateConfigs() {
+	id := this.GetString("id")
+	content := this.GetString("content")
+	// 通过_id 构造查询，获取需要修改的源数据
+	query := bson.M{"_id":bson.ObjectIdHex(id)}
+
+	// 处理提交的 需要更新的数据，json字符串转 golang insterface{}
+	var bdoc interface{}
+	err := bson.UnmarshalJSON([]byte(content),&bdoc)
+	//fmt.Println(bdoc)
+	if err != nil {
+		panic(err)
+	}
+	// 调用修改
+	err = models.Update(query, &bdoc)
+	if err != nil {
 		panic(err)
 	}
 	// 返回api
-	this.Data["json"] = Response{0, "success.", result}
+	this.Data["json"] = Response{0, "success.", &bdoc}
+	this.ServeJSON()
+}
+
+
+// @Title 修改配置
+// @Description 修改配置
+// @Param id formData string true "需要删除的ID"
+// @Success 200 {object} Response
+// @Faulure 422 不存在
+// @router /delete [post]
+func (this *ConfigsController) DeleteConfigs() {
+	id := this.GetString("id")
+	// 通过_id 构造查询，获取需要删除的数据
+	query := bson.M{"_id":bson.ObjectIdHex(id)}
+
+	// 调用删除
+	err := models.Remove(query)
+	if err != nil {
+		panic(err)
+	}
+	// 返回api
+	this.Data["json"] = Response{0, "success.", "删除成功"}
 	this.ServeJSON()
 }

@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"github.com/astaxie/beego/config"
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
@@ -81,16 +80,6 @@ func FindProjects(query interface{}) (*[]ProjectResp, error) {
 	return &tmp, err
 }
 
-// 获取进程
-func FindProcess() (*[]ProcessResp, error) {
-	ms, c := connect()
-	defer ms.Close()
-	tmp := []ProcessResp{}
-	err := c.Find(bson.M{}).All(&tmp)
-	fmt.Println(tmp)
-	return &tmp, err
-}
-
 // 配置插入
 func Insert(docs ...interface{}) error {
 	ms, c := connect()
@@ -98,26 +87,29 @@ func Insert(docs ...interface{}) error {
 	return c.Insert(docs...)
 }
 
-func FindOne(query, selector, result interface{}) error {
+// 配置修改
+func Update(query, update interface{}) error {
 	ms, c := connect()
 	defer ms.Close()
-	return c.Find(query).Select(selector).One(result)
+	return c.Update(query, update)
 }
 
-//func Update(db, collection string, query, update interface{}) error {
-//	ms, c := connect(db, collection)
+func Remove(query interface{}) error {
+	ms, c := connect()
+	defer ms.Close()
+	return c.Remove(query)
+}
+
+//func FindOne(query, selector, result interface{}) error {
+//	ms, c := connect()
 //	defer ms.Close()
-//	return c.Update(query, update)
+//	return c.Find(query).Select(selector).One(result)
 //}
 //
-//func Remove(db, collection string, query interface{}) error {
-//	ms, c := connect(db, collection)
-//	defer ms.Close()
-//	return c.Remove(query)
-//}
-
-//func (m *Movies) FindMovieById(id string) (Movies, error) {
-//	var result Movies
-//	err := FindOne(db, collection, bson.M{"_id": bson.ObjectIdHex(id)}, nil, &result)
+//func FindById(id string) (ProjectResp, error) {
+//	var result ProjectResp
+//	err := FindOne(bson.M{"_id": bson.ObjectIdHex(id)}, nil, &result)
 //	return result, err
 //}
+
+

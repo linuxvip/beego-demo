@@ -11,8 +11,8 @@ paths:
     post:
       tags:
       - config
-      description: 新建配置
-      operationId: ConfigsController.新建配置
+      description: 新增配置
+      operationId: ConfigsController.新增配置
       parameters:
       - in: formData
         name: service_module
@@ -32,23 +32,29 @@ paths:
             $ref: '#/definitions/Response'
         "403":
           description: 参数错误:缺失或格式错误
-  /config/process:
-    get:
+  /config/delete:
+    post:
       tags:
       - config
-      description: 查询进程
-      operationId: ConfigsController.查询进程
+      description: 修改配置
+      operationId: ConfigsController.修改配置
+      parameters:
+      - in: formData
+        name: id
+        description: 需要删除的ID
+        required: true
+        type: string
       responses:
         "200":
           description: ""
           schema:
             $ref: '#/definitions/Response'
-  /config/project:
+  /config/list:
     get:
       tags:
       - config
-      description: 查询Project
-      operationId: ConfigsController.查询Project
+      description: 查询配置
+      operationId: ConfigsController.查询配置
       parameters:
       - in: formData
         name: service_module
@@ -70,6 +76,28 @@ paths:
       - config
       description: 查询服务模块
       operationId: ConfigsController.查询服务模块
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/Response'
+  /config/update:
+    post:
+      tags:
+      - config
+      description: 修改配置
+      operationId: ConfigsController.修改配置
+      parameters:
+      - in: formData
+        name: id
+        description: 需要更新的ID
+        required: true
+        type: string
+      - in: formData
+        name: content
+        description: 需要更新的内容(Json)
+        required: true
+        type: string
       responses:
         "200":
           description: ""
