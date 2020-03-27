@@ -155,10 +155,8 @@ func (this *UserController) GetUserList()  {
 	//fmt.Println(params)
 
 	data, total := models.UserPageList(&params)
-	fmt.Println(total)
-	fmt.Printf("%T", data)
-
-	this.Data["json"] = Response{0, "success.",data}
+	page_data := PageData{Count:total,Data:data}
+	this.Data["json"] = ResponsePage{0, "success.",&page_data}
 
 	this.ServeJSON()
 }

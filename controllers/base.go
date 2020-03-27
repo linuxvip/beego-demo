@@ -16,12 +16,16 @@ type Response struct {
 }
 
 //Response 结构体
-type Response1 struct {
-	Errcode int         `json:"errcode"`
-	Errmsg  string      `json:"errmsg"`
-	Count	int64		`json:"count"`
-	Data    interface{} `json:"data"`
+type ResponsePage struct {
+	Errcode		int			`json:"errcode"`
+	Errmsg		string		`json:"errmsg"`
+	PageData	*PageData	`json:"data"`
 }
+type PageData struct {
+	Count	int64		`json:"count"`
+	Data	interface{} `json:"data"`
+}
+
 //Response 结构体
 type ErrResponse struct {
 	Errcode int         `json:"errcode"`
