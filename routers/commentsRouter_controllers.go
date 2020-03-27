@@ -126,6 +126,15 @@ func init() {
 
     beego.GlobalControllerRouter["devops/controllers:UserController"] = append(beego.GlobalControllerRouter["devops/controllers:UserController"],
         beego.ControllerComments{
+            Method: "AddUser",
+            Router: `/add`,
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["devops/controllers:UserController"] = append(beego.GlobalControllerRouter["devops/controllers:UserController"],
+        beego.ControllerComments{
             Method: "Auth",
             Router: `/auth`,
             AllowHTTPMethods: []string{"get"},
@@ -135,26 +144,17 @@ func init() {
 
     beego.GlobalControllerRouter["devops/controllers:UserController"] = append(beego.GlobalControllerRouter["devops/controllers:UserController"],
         beego.ControllerComments{
+            Method: "GetUserList",
+            Router: `/list`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["devops/controllers:UserController"] = append(beego.GlobalControllerRouter["devops/controllers:UserController"],
+        beego.ControllerComments{
             Method: "Login",
             Router: `/login`,
-            AllowHTTPMethods: []string{"post"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["devops/controllers:UserController"] = append(beego.GlobalControllerRouter["devops/controllers:UserController"],
-        beego.ControllerComments{
-            Method: "Registered",
-            Router: `/reg`,
-            AllowHTTPMethods: []string{"post"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["devops/controllers:UserController"] = append(beego.GlobalControllerRouter["devops/controllers:UserController"],
-        beego.ControllerComments{
-            Method: "UploadAvatar",
-            Router: `/upload_avatar`,
             AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,

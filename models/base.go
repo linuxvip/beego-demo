@@ -47,3 +47,11 @@ func TableName(str string) string {
 	}
 	return appConf.String("database::db_prefix") + str
 }
+
+// BaseQueryParam 用于查询的类
+type BaseQueryParam struct {
+	Sort   string `json:"sort"`
+	Order  string `json:"order"`
+	Offset int64  `json:"offset"`
+	Limit  int64  `json:"limit"`
+}

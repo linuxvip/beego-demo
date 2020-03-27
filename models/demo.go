@@ -46,7 +46,8 @@ func (u *Config) TableName() string {
 	return TableName("config")
 }
 
-func init() {
+//func init() {
+func init_no_init() {
 	// 映射model数据（Role）
 	orm.RegisterModel(new(ConfigGit), new(ConfigProcess), new(Config))
 }
