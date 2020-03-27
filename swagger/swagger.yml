@@ -234,12 +234,53 @@ paths:
             $ref: '#/definitions/Response'
         "401":
           description: unauthorized
+  /user/delete:
+    post:
+      tags:
+      - user
+      description: 用户删除
+      operationId: UserController.用户删除
+      parameters:
+      - in: formData
+        name: id
+        description: 用户ID
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.User'
+        "422":
+          description: deleteError
   /user/list:
     get:
       tags:
       - user
       description: 用户列表
       operationId: UserController.用户列表
+      parameters:
+      - in: formData
+        name: limit
+        description: 返回最大页数量
+        type: integer
+        format: int64
+      - in: formData
+        name: offset
+        description: 页面数量偏移码
+        type: integer
+        format: int64
+      - in: formData
+        name: username
+        description: 用户名称模糊查询
+        type: integer
+        format: int64
+      - in: formData
+        name: email
+        description: 邮箱地址模糊查询
+        type: integer
+        format: int64
       responses:
         "200":
           description: ""

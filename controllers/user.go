@@ -19,7 +19,9 @@ type UserController struct {
 	BaseController
 }
 
-
+func (this *UserController) Prepare()  {
+	//
+}
 
 // @Title 添加用户
 // @Description 添加用户
@@ -143,6 +145,10 @@ func (this *UserController) Auth() {
 
 // @Title 用户列表
 // @Description 用户列表
+// @Param limit formData int64	false "返回最大页数量"
+// @Param offset formData int64	false "页面数量偏移码"
+// @Param username formData int64	false "用户名称模糊查询"
+// @Param email formData int64	false "邮箱地址模糊查询"
 // @Success 200 {object} models.User
 // @Failure 401 unauthorized
 // @router /list [get]
@@ -160,6 +166,53 @@ func (this *UserController) GetUserList()  {
 
 	this.ServeJSON()
 }
+
+// @Title 用户删除
+// @Description 用户删除
+// @Param id formData int64	true "用户ID"
+// @Success 200 {object} models.User
+// @Failure 422 deleteError
+// @router /delete [post]
+func (this *UserController) DeleteUser()  {
+	var params models.UserDeleteParam
+	var err error
+	if err = json.Unmarshal(this.Ctx.Input.RequestBody, &params); err == nil {
+		if err = models.DeleteUser(params.Id);err == nil{
+			this.Data["json"] = Response{0, "success.", "user delete succeed"}
+		}
+	} else {
+		this.Ctx.ResponseWriter.WriteHeader(422)
+		this.Data["json"] = ErrResponse{-1, fmt.Sprintf("%s", err)}	}
+	this.ServeJSON()
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //// @Title 头像上传

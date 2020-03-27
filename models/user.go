@@ -20,6 +20,11 @@ type UserQueryParam struct {
 	EmailLike		string //模糊查询
 	Phone			string //精确查询
 }
+// UserDeleteParam 用于删除的类
+type UserDeleteParam struct {
+	Id int64
+}
+
 
 type User struct {
 	Id			int64		`json:"id" orm:"column(id);pk;auto;unique;description(id)"`
@@ -143,4 +148,16 @@ func CheckUserAuth(email string, password string) (User, bool) {
 		return user, false
 	}
 	return user, true
+}
+
+// 用户删除
+func DeleteUser(id int64) error {
+	o := orm.NewOrm()
+	var u User
+	u.Id=id
+	err := o.Read(&u,"Id");
+	if err == nil {
+		o.Delete(&u)
+	}
+	return err
 }
